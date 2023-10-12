@@ -6,7 +6,7 @@ public class CategoriaVehiculo {
 	private int tarifaTemporadaBaja;
 	private int tarifaConductorAdicional;
 	private int tarifaEntregarOtraSede;
-	private boolean temporadaAlta;
+	private static boolean temporadaAlta;
 	
 	public CategoriaVehiculo(String nombreCategoria, int tarifaTemporadaAlta, int tarifaTemporadaBaja,
 			int tarifaConductorAdicional, int entregarOtraSede, boolean temporadaAlta) {
@@ -61,7 +61,7 @@ public class CategoriaVehiculo {
 	}
 
 	public void setTemporadaAlta(boolean temporadaAlta) {
-		this.temporadaAlta = temporadaAlta;
+		CategoriaVehiculo.temporadaAlta = temporadaAlta;
 	}
 	
 	public int getTarifaActual() {
