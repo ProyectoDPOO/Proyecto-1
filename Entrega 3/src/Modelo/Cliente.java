@@ -52,7 +52,7 @@ public class Cliente extends Usuario{
 	public String getIdentificacion() {
 		return identificacion;
 	}
-	public ArrayList resumenCliente() {
+	public ArrayList<String> resumenCliente() {
 		resumen.add(this.getNombreUsuario());
 		resumen.add(this.getContraseña());
 		resumen.add(fechaDeNacimiento);

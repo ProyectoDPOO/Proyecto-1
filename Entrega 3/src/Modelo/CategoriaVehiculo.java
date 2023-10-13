@@ -1,4 +1,5 @@
 package Modelo;
+import java.util.ArrayList;
 
 public class CategoriaVehiculo {
 	private String nombreCategoria;
@@ -7,7 +8,7 @@ public class CategoriaVehiculo {
 	private int tarifaConductorAdicional;
 	private int tarifaEntregarOtraSede;
 	private static boolean temporadaAlta;
-	
+	private ArrayList<Object> resumen;
 	public CategoriaVehiculo(String nombreCategoria, int tarifaTemporadaAlta, int tarifaTemporadaBaja,
 			int tarifaConductorAdicional, int entregarOtraSede, boolean temporadaAlta) {
 
@@ -16,7 +17,7 @@ public class CategoriaVehiculo {
 		this.tarifaTemporadaBaja = tarifaTemporadaBaja;
 		this.tarifaConductorAdicional = tarifaConductorAdicional;
 		this.tarifaEntregarOtraSede = entregarOtraSede;
-		this.temporadaAlta = temporadaAlta;
+		CategoriaVehiculo.temporadaAlta = temporadaAlta;
 	}
 
 	public String getNombreCategoria() {
@@ -68,6 +69,16 @@ public class CategoriaVehiculo {
 		if (temporadaAlta) {
 			return tarifaTemporadaAlta;}
 		else {return tarifaTemporadaBaja;}
+	}
+	
+	public ArrayList<Object> resumenCategoria() {
+		resumen.add(nombreCategoria);
+		resumen.add(tarifaTemporadaAlta);
+		resumen.add(tarifaTemporadaBaja);
+		resumen.add(tarifaConductorAdicional);
+		resumen.add(tarifaEntregarOtraSede);
+		resumen.add(temporadaAlta);
+		return resumen;
 	}
 		
 

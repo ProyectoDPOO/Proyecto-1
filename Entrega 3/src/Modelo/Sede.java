@@ -39,11 +39,7 @@ public class Sede {
 	
 	}
 	
-	public String getEstado() {
-		
-			
-	
-	}
+
 
 
 }
