@@ -26,7 +26,9 @@ public class Cliente extends Usuario{
 		this.licencia = new LicenciaConducir(numeroLicencia,paisExpedicion, fechaLicencia,imgLicencia);
 		this.Medio = new MedioPago(tipoPago,numeroMedioPago,fechaVencimientoMedioPago);
 		}
-	
+	public String getNombres() {
+		return this.getNombreUsuario();
+	}
 	public String getFechaDeNacimiento() {
 		return fechaDeNacimiento;
 	}

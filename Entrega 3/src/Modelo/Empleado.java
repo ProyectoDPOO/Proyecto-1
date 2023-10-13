@@ -11,12 +11,16 @@ public class Empleado extends Usuario{
 		this.rol = rol;
 		this.sede = sede;
 	}
-
+	
+	public String getNombreEmpleado() {
+		return this.getNombreUsuario();
+	}
+	
 	public String getRol() {
 		return rol;
 	}
 
-
+	
 	public String getSede() {
 		return sede;
 	}
