@@ -21,7 +21,13 @@ public class Empleado extends Usuario{
 		return sede;
 	}
 
-	
+	public ArrayList<Object> resumenEmpleado() {
+		resumen.add(this.getNombreUsuario());
+		resumen.add(this.getContraseña());
+		resumen.add(rol);
+		resumen.add(sede);		
+		return resumen;
+	}
 	
 	
 }
