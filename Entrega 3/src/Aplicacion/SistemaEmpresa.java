@@ -313,7 +313,7 @@ public class SistemaEmpresa {
 			System.out.println("\nOpciones de Vehiculo\n");
 			System.out.println("1. Agregar vehiculo");
 			System.out.println("2. Eliminar vehiculo");
-			System.out.println("3. tralsado de vehiculo");
+			System.out.println("3. traslado de vehiculo");
 			System.out.println("4. Salir del sistema\n");
 		}
 		
