@@ -2,11 +2,13 @@ package Modelo;
 
 public class Usuario {
 	private String nombreUsuario;
-	private String contraseña;
+	private String contrasena;
+	private String rol;
 	
-	public Usuario(String nombreUsuario, String contraseña) {
+	public Usuario(String nombreUsuario, String contrasena, String rol) {
 		this.nombreUsuario = nombreUsuario;
-		this.contraseña = contraseña;
+		this.contrasena = contrasena;
+		this.rol = rol;
 	}
 
 	public String getNombreUsuario() {
@@ -14,7 +16,12 @@ public class Usuario {
 	}
 
 	public String getContraseña() {
-		return contraseña;
+		return contrasena;
 	}
+	
+	public String getRol() {
+		return rol;
+	}
+	
 	
 }

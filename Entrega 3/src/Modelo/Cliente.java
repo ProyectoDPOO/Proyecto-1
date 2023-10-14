@@ -10,14 +10,15 @@ public class Cliente extends Usuario{
 	private String imgDocidentidad;
 	private String identificacion;
 	private LicenciaConducir licencia;
+	private String nombre;
 	private MedioPago Medio;
 	private ArrayList<String> resumen;
 	
-	public Cliente(String nombreUsuario, String contraseña, String fechaDeNacimiento, String telefono,
+	public Cliente(String nombre, String nombreUsuario, String contraseña, String fechaDeNacimiento, String telefono,
 			String nacionalidad, String imgDocidentidad, String identificacion,String numeroLicencia,
 			String paisExpedicion, String fechaLicencia, String imgLicencia,String tipoPago, 
 			String numeroMedioPago, String fechaVencimientoMedioPago) {
-		super(nombreUsuario, contraseña);
+		super(nombreUsuario, contraseña, "Cliente");
 		this.fechaDeNacimiento = fechaDeNacimiento;
 		this.telefono = telefono;
 		this.nacionalidad = nacionalidad;
@@ -25,10 +26,14 @@ public class Cliente extends Usuario{
 		this.identificacion = identificacion;
 		this.licencia = new LicenciaConducir(numeroLicencia,paisExpedicion, fechaLicencia,imgLicencia);
 		this.Medio = new MedioPago(tipoPago,numeroMedioPago,fechaVencimientoMedioPago);
+		this.nombre = nombre;
+		
 		}
-	public String getNombres() {
-		return this.getNombreUsuario();
+	
+	public String getNombre() {
+		return nombre;
 	}
+	
 	public String getFechaDeNacimiento() {
 		return fechaDeNacimiento;
 	}
@@ -55,6 +60,7 @@ public class Cliente extends Usuario{
 		return identificacion;
 	}
 	public ArrayList<String> resumenCliente() {
+		resumen.add(this.getNombre());
 		resumen.add(this.getNombreUsuario());
 		resumen.add(this.getContraseña());
 		resumen.add(fechaDeNacimiento);

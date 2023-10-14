@@ -38,8 +38,5 @@ public class Sede {
 		return administradorLocal;	
 	
 	}
-	
-
-
 
 }

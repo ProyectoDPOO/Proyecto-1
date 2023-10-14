@@ -3,35 +3,34 @@ package Modelo;
 import java.util.ArrayList;
 
 public class Empleado extends Usuario{
-	private String rol;
+
 	private String sede;
-	private ArrayList<Object> resumen;
-	public Empleado(String nombreUsuario, String contraseña, String rol, String sede) {
-		super(nombreUsuario, contraseña);
-		this.rol = rol;
+	private String nombre;
+	private ArrayList<String> resumen;
+	public Empleado(String nombre,String nombreUsuario, String contrasena, String rol, String sede) {
+		super(nombreUsuario, contrasena, rol);
 		this.sede = sede;
-	}
-	
-	public String getNombreEmpleado() {
-		return this.getNombreUsuario();
-	}
-	
-	public String getRol() {
-		return rol;
+		this.nombre = nombre;
 	}
 
-	
+
 	public String getSede() {
 		return sede;
 	}
 
-	public ArrayList<Object> resumenEmpleado() {
+	public String getNombre() {
+		return nombre;
+	}
+
+	public ArrayList<String> resumenEmpleado() {
+		resumen.add(this.getNombre());
 		resumen.add(this.getNombreUsuario());
 		resumen.add(this.getContraseña());
-		resumen.add(rol);
-		resumen.add(sede);		
+		resumen.add(this.getRol());
+		resumen.add(sede);
 		return resumen;
 	}
+	
 	
 	
 }
