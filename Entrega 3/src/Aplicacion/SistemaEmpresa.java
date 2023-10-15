@@ -253,7 +253,7 @@ public class SistemaEmpresa {
 				int opcion = Integer.parseInt(input("Por favor seleccione una opción "));
 				switch (opcion) {
 				case 1:
-					
+					empresa.generarReserva();
 				break;
 
 				case 2:
@@ -287,15 +287,28 @@ public class SistemaEmpresa {
 				int opcion = Integer.parseInt(input("Por favor seleccione una opción "));
 				switch (opcion) {
 				case 1:
-					
+					empresa.generarAlquiler();
 				break;
 
 				case 2:
 					
+					String nombre = input("Ingrese el nombre del conductor:");
+				    String identificacion = input("Ingrese la identificación del conductor:");
+				    String telefono = input("Ingrese el número de teléfono del conductor:");
+				    String correo = input("Ingrese el correo del conductor:");
+				    String numeroLicencia = input("Ingrese el número de licencia del conductor:");
+				    String paisExpedicion = input("Ingrese el país de expedición de la licencia:");
+				    String fechaLicencia = input("Ingrese la fecha de expedición de la licencia:");
+				    String imgLicencia = input("Ingrese la imagen de la licencia:");
+
+				    empresa.registrarConductorAdicional(nombre, identificacion, telefono, correo, numeroLicencia, paisExpedicion, fechaLicencia, imgLicencia);
+					
 				break; 
 				
 				case 3:
-					
+					String placa = input("Ingrese la placa del vehiculo:");
+					String estadoNuevo = input("Ingrese estado del vehiculo: (Disponible, Ocuapdo, Limpieza, Mantenimiento)");
+					empresa.actualizarEstado( placa,  estadoNuevo);
 				break; 
 
 				case 4:
@@ -313,7 +326,7 @@ public class SistemaEmpresa {
 			System.out.println("\nOpciones de Vehiculo\n");
 			System.out.println("1. Agregar vehiculo");
 			System.out.println("2. Eliminar vehiculo");
-			System.out.println("3. traslado de vehiculo");
+			System.out.println("3. tralsado de vehiculo");
 			System.out.println("4. Salir del sistema\n");
 		}
 		
@@ -332,9 +345,12 @@ public class SistemaEmpresa {
 				    String color = input("Ingrese el color del vehículo: ");
 				    String transmision = input("Ingrese el tipo de transmisión del vehículo: ");
 				    String categoria = input("Ingrese la categoría del vehículo: ");
+				    int capacidad = Integer.parseInt(input("Ingrese la capacidad del vehículo: "));
+				    String sedeActual = input("Ingrese el estado del vehículo: ");
 				    String estado = input("Ingrese el estado del vehículo: ");
-					empresa.registrarVehiculo(placa, marca, modelo, color, transmision, categoria, estado);
-				
+				    String fechaDisponible = input("Ingrese el estado del vehículo: ");
+					empresa.registrarVehiculo(placa, marca, modelo,color,transmision,capacidad,categoria,estado, sedeActual, fechaDisponible);
+					 
 				case 2:
 					String vehiculo = input("Ingrese la placa del vehículo que desea eliminar: ");
 					empresa.eliminarVehiculo(vehiculo);

@@ -8,17 +8,22 @@ public class Vehiculo {
 	private String modelo;
 	private String color;
 	private String transmision;
-	private String estado;
+	private EstadoVehiculo estado;
 	private int capacidad;
 	private String categoria;
 
-	public Vehiculo(String placa, String marca, String modelo, String color, String transmision) {
+	public Vehiculo(String placa, String marca, String modelo, String color, String transmision, 
+			int capacidad, String categoria, String estado, String sedeActual, String fechadisponible) {
 		
 		this.placa = placa;
 		this.marca = marca;
 		this.modelo = modelo;
 		this.color = color;
 		this.transmision = transmision;
+		this.categoria = categoria.toUpperCase();
+		this.capacidad = capacidad;
+		this.estado = new EstadoVehiculo(estado, sedeActual.toUpperCase(), fechadisponible);
+		
 
 	}
 
@@ -58,7 +63,7 @@ public class Vehiculo {
 	
 	}
 	
-	public String getEstado() {
+	public EstadoVehiculo getEstado() {
 		
 		return this.estado;	
 	
@@ -71,4 +76,5 @@ public class Vehiculo {
 	}
 	
 }
+
 

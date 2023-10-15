@@ -1,11 +1,15 @@
 package Modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Procesamiento.EmpresaAlquilerVehiculo;
 
 public class Alquiler {
 	private Vehiculo vehiculo;
+	private Cliente cliente;
+	private Seguro seguro;
+	private EmpresaAlquilerVehiculo Empresa;
 	private String fechaRecogida;
 	private String rangoHorasRecogida;
 	private String sedeRecogida;
@@ -15,9 +19,9 @@ public class Alquiler {
 	private ArrayList<ConductorAdicional> conductorAdicional;
 	private ArrayList<Seguro> seguros;
 	private ArrayList<Object> resumenAlquiler;
-	private EmpresaAlquilerVehiculo Empresa;
+
 	
-	public Alquiler(EmpresaAlquilerVehiculo Empresa,Vehiculo vehiculo, Cliente cliente, String fechaRecogida, String rangoHorasRecogida, String sedeRecogida, String fechaEntrega, String rangoHorasEntrega, String sedeEntrega, ArrayList<Seguro>segurosusados, ArrayList<ConductorAdicional>conductores){
+	public Alquiler(EmpresaAlquilerVehiculo Empresa, Vehiculo vehiculo, Cliente cliente, String fechaRecogida, String rangoHorasRecogida, String sedeRecogida, String fechaEntrega, String rangoHorasEntrega, String sedeEntrega, ArrayList<Seguro>segurosusados, ArrayList<ConductorAdicional>conductores){
 		
 		this.vehiculo = vehiculo;
 		this.cliente = cliente;
@@ -30,7 +34,7 @@ public class Alquiler {
 		this.Empresa = Empresa;
 	}
 	
-	public void registroConductoresAdicionales(String conductorAdicional) {
+	public void registroConductoresAdicionales(ArrayList<ConductorAdicional> conductorAdicional) {
 		this.conductorAdicional = conductorAdicional;
 	}
 	
@@ -39,7 +43,7 @@ public class Alquiler {
 	}
 	
 	public void asignarVehiculo(String categoria) {
-		
+		vehiculo.getCategoria();
 	}
 	
 	public String getCliente() {
@@ -58,10 +62,10 @@ public class Alquiler {
 	  }
 	
 	public int generarPrecioFinal() {
-		int  preciovehiculo =0;
+		int preciovehiculo =0;
 		int precioConductorAdicional = 0;
-		int otrasede = 0;
-		int total = 0;
+		int otrasede = 0;	
+		int valorSeguro = 0;
 		String categoriaVehiculo = vehiculo.getCategoria();
 		if (this.Empresa.categorias.containsKey(categoriaVehiculo.toUpperCase())) {
 			CategoriaVehiculo categoria = this.Empresa.categorias.get(categoriaVehiculo.toUpperCase());
@@ -70,23 +74,28 @@ public class Alquiler {
 			otrasede= categoria.getTarifaOtraSede();}
 		
 		
-		int totalconductores = precioConductorAdicional* tamañlista condcutores adicionales
-				
+		int cantidadConductores =  conductorAdicional.size();
+		int precioConductores = precioConductorAdicional * cantidadConductores
 		int preciosSeguros = 0;
-		for (ciclos seguros)
-			segurocilco. utilizar metodo de seguros para retornar precio
+		for (Seguro seguro : seguros) {
+            sumaCostos += seguro.getCosto();
+        }
+		if (!sedeRecogida.equals(sedeEntrega)) {
+			otrasede= 0;
+		} else {
+			otrasede = categoriaVehiculo.getTarifaOtraSede;
+		}
 			
-		comparas si a seds es son diferentes 
-			
-		return total;
+		int totalFinal = preciovehiculo + precioConductorAdicional + otrasede + preciosSeguros;
+		return totalFinal;
 	}
 	
 	public ArrayList<Object>resumen(){
 		resumenAlquiler.add(registroConductoresAdicionales());
 		resumenAlquiler.add(agregarSeguros());
-		resumenAlquiler.add(asignarVehiculo());
+		resumenAlquiler.add(this.asignarVehiculo());
 		resumenAlquiler.add(getCliente());
 		resumenAlquiler.add(getVehiculo());
-		resumenAlquiler.add(generarNumeroAlquiler);
-}
+		resumenAlquiler.add(this.generarNumeroAlquiler());
+	}
 }

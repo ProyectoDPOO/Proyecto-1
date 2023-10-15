@@ -11,18 +11,17 @@ import java.util.Map;
 import java.util.Date;
 import java.util.HashMap;
 
-import Modelo.CategoriaVehiculo;
 import Modelo.Cliente;
+import Modelo.ConductorAdicional;
 import Modelo.Empleado;
-import Modelo.EstadoVehiculo;
 import Modelo.Sede;
-import Modelo.Seguro;
 import Modelo.Usuario;
 import Modelo.Vehiculo;
+import Modelo.Seguro;
+import Modelo.EstadoVehiculo;
 
 public class EmpresaAlquilerVehiculo {
 	
-	private static final String String = null;
 	private Map<String, Usuario> usuarios;
 	private Map<String, Vehiculo> inventario;
 	private Map<String, Sede> sedes;
@@ -30,8 +29,8 @@ public class EmpresaAlquilerVehiculo {
 	private Map<String, Seguro> seguros;
 	private Map<String, EstadoVehiculo> estadoVehiculo;
 	private Map<String, Cliente> clientes;
-	public Map<String, CategoriaVehiculo> categorias;
-	private BufferedReader reader;
+	private Map<String, ConductorAdicional> conductorAdicional;
+
 	
 	public EmpresaAlquilerVehiculo() 
 	{
@@ -42,8 +41,7 @@ public class EmpresaAlquilerVehiculo {
 		seguros = new HashMap<>();
 		estadoVehiculo = new HashMap<>();
 		clientes = new HashMap<>();
-		categorias = new HashMap<>();
-		reader = new BufferedReader(new InputStreamReader(System.in));
+		conductorAdicional = new HashMap<>();
 
 	}
 	
@@ -153,13 +151,15 @@ public class EmpresaAlquilerVehiculo {
 						System.out.println("Debe seleccionar uno de los números de las opciones.");
 					}
 				}
+				return null;
 		}
 		
 
 	
-	public Vehiculo registrarVehiculo(String placa, String marca, String modelo, String color, String transmision, String categoria, String estado) 
+	public void registrarVehiculo(String placa, String marca, String modelo, String color, String transmision, 
+			int capacidad, String categoria, String estado, String sedeActual, String fechadisponible) 
 	{
-		  Vehiculo newVehiculo = new Vehiculo(placa, marca, modelo,color,transmision);
+		  Vehiculo newVehiculo = new Vehiculo(placa, marca, modelo,color,transmision,capacidad,categoria,estado, sedeActual, fechadisponible);
 		  inventario.put(placa, newVehiculo);
 		  
 	}
@@ -185,11 +185,10 @@ public class EmpresaAlquilerVehiculo {
 	        EstadoVehiculo estadoVehiculo = vehiculo.getEstado();
 	        if (estadoVehiculo != null) 
 	        {
-	           String sedeActual = estadoVehiculo.getSedeActual();
+	           String sedeActual = estadoVehiculo.getsedeActual();
 	            if (!sedeActual.equals(destino)) 
 	            {
 	                estadoVehiculo.setSedeActual(destino);
-
 	            } 
 	            else
 	            {
@@ -203,25 +202,38 @@ public class EmpresaAlquilerVehiculo {
 	    }
 	}
 	
-	public void registrarConductorAdicional()
+	public void registrarConductorAdicional(String nombre,String identificacion, String telefono, String correo, String numeroLicencia,String paisExpedicion, String fechaLicencia, String imgLicencia)
 	{
+		ConductorAdicional nuevoConductorAdicional = new ConductorAdicional( nombre, identificacion,  telefono,  correo,  numeroLicencia, paisExpedicion,  fechaLicencia,  imgLicencia);
+		conductorAdicional.put(identificacion, nuevoConductorAdicional);
+	}
+	
+	public void generarReserva()
+	{
+		return 0;
 		
 	}
 	
-	public int generarReserva(String TipoVehiculo, Date FechaInicio, Date FechaFin)
-	{
+	public void generarAlquiler(){
+		return 0;
 		
 	}
 	
-	public int generarAlquiler(Vehiculo vehiculo, Cliente cliente, String fechaRecogida, String rangoHorasRecogida, Sede sedeRecogida, String fechaEntrega, 
-							   String rangoHorasEntrega, Sede sedeEntrega, ArrayList<Seguro> segurosusados, ArrayList<ConductorAdcional> conductores)
+	public void actualizarEstado(String placa, String estadoNuevo)
 	{
-		
-	}
-	
-	public void actualizarEstado(String idCliente)
-	{
-		
+		Vehiculo vehiculo = inventario.get(placa);
+		if (vehiculo != null)
+		{
+			EstadoVehiculo estadoVehiculo = vehiculo.getEstado();
+			if(estadoVehiculo != null)
+			{
+				estadoVehiculo.actualizarEstado(estadoNuevo);
+			}
+		}
+		else 
+		{
+			System.out.println("Vehículo no existe");
+		}
 	}
 
 	
@@ -236,7 +248,7 @@ public class EmpresaAlquilerVehiculo {
 	{
 		if (!empleados.containsKey(nombre)) {
 	        Empleado nuevoEmpleado = new Empleado(nombre, nombreUsuario, contrasena, rol, sede);
-	        empleados.put(nombre, nuevoEmpleado);
+	        empleados.put(nombreUsuario, nuevoEmpleado);
 	     
 	    } else {
 	        System.out.println("Ya existe");

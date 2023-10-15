@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.util.ArrayList;
+
 public class ConductorAdicional {
 
 
@@ -7,13 +9,16 @@ public class ConductorAdicional {
 	private String identificacion;
 	private String telefono;
 	private String correo;
-
-	public ConductorAdicional(String nombre,String identificacion, String telefono, String correo){
+	private LicenciaConducir licencia;
+	private ArrayList<String> resumen;
+	
+	public ConductorAdicional(String nombre,String identificacion, String telefono, String correo, String numeroLicencia,
+			String paisExpedicion, String fechaLicencia, String imgLicencia){
 		
 		this.nombre = nombre;
-		this.identificacion = identificacion;
 		this.telefono = telefono;
 		this.correo = correo;
+		this.licencia = new LicenciaConducir(numeroLicencia,paisExpedicion, fechaLicencia,imgLicencia);
 	}
 
 	public String getNombre() {
@@ -39,6 +44,17 @@ public class ConductorAdicional {
 		return this.identificacion;	
 	
 	}
+
+	public ArrayList<String> resumenConductorAdicional() {
+	resumen.add(this.getNombre());
+	resumen.add(telefono);
+	resumen.add(identificacion);
+	resumen.add(licencia.getNumeroLicencia());
+	resumen.add(licencia.getPaisExpedicion());
+	resumen.add(licencia.getFechaLicencia());
+	resumen.add(licencia.getImgLicencia());
+	return resumen;
+}
 
 	
 }

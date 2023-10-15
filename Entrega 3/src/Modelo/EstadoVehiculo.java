@@ -6,21 +6,41 @@ public class EstadoVehiculo {
 	private String sedeActual;
 	private String fechaDisponibilidad;
 	
-	public EstadoVehiculo(String estado, String sedeActual, String fechaDisponibilidad){
+	public EstadoVehiculo(String estado, String sedeActual, String fechadisponible)
+	{
 		this.estado = estado;
-		this.sedeActual = sedeActual;
-		this.fechaDisponibilidad = fechaDisponibilidad;
+		this.sedeActual = sedeActual.toUpperCase();
+		this.fechaDisponibilidad = fechadisponible;
 	}
 	
+	
 	public String getEstado() {
-		return this.estado;
+		return estado;
 	}
 	
 	public String getsedeActual() {
-		return this.sedeActual;
+		return sedeActual;
+	}
+	public void setSedeActual(String destino) {
+		
+		this.sedeActual = destino;
 	}
 	
 	public String getfechaDisponibilidad() {
-		return this.fechaDisponibilidad;
+		return fechaDisponibilidad;
+	}
+	
+	public void actualizarEstado(String estadoNuevo) 
+	{
+		if(estadoNuevo.equals("Disponible")|| estadoNuevo.equals("Ocupado")||
+				estadoNuevo.equals("Limpieza")||estadoNuevo.equals("Mantenimiento")) 
+		{
+			estado = estadoNuevo;
+		} 
+		else
+		{
+			System.out.println("Este estado no extiste");
+		}
 	}
 }
+

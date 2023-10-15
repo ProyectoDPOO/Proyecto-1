@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import Procesamiento.EmpresaAlquilerVehiculo;
 public class Reserva {
 	
-	private boolean pago30;
 	private Cliente cliente;
-	private String categoriaVehiculo;
+	private CategoriaVehiculo categoriaVehiculo;
 	private String sedeRecogida;
 	private String sedeEntrega;
 	private String fechaRecogida;
@@ -15,11 +14,11 @@ public class Reserva {
 	private String rangoHorasEntrega;
 	private int costoReserva;
 	private int precioPagoAnticipado;
-	private ArrayList<Object> resumenReserva;
+	private ArrayList<String> resumenReserva;
 	private EmpresaAlquilerVehiculo Empresa;
 	
-	public Reserva(EmpresaAlquilerVehiculo Empresa, Cliente cliente, String categoriaVehiculo, String sedeRecogida, String sedeEntrega, String fechaRecogida, 
-			 String fechaEntrega, String rangoHorasRecogida, String rangoHorasEntrega){
+	public Reserva(EmpresaAlquilerVehiculo Empresa, Cliente cliente, CategoriaVehiculo categoriaVehiculo, String sedeRecogida, 
+			String sedeEntrega, String fechaRecogida, String fechaEntrega, String rangoHorasRecogida, String rangoHorasEntrega){
 		this.Empresa = Empresa;
 		this.cliente = cliente;
 		this.categoriaVehiculo = categoriaVehiculo;
@@ -33,16 +32,20 @@ public class Reserva {
 		
 	}
 	
-	public void setFechaRecogida(){
+	public String setFechaRecogida(){
+		return this.fechaRecogida;
 	}
 			
-	public void setSedeRecogida(){		
+	public String setSedeRecogida(){	
+		return this.sedeRecogida;
 	}
 	
-	public void setFechaEntrega(){		
+	public String setFechaEntrega(){
+		return this.fechaEntrega;
 	}
 			
-	public void setSedeEntrega(){		
+	public String setSedeEntrega(){
+		return this.sedeEntrega;
 	}
 	
 	public int getCostoReserva() {		
@@ -60,13 +63,15 @@ public class Reserva {
 		return precioPagoAnticipado;
 	}
 	
-	public ArrayList<Object>resumen(){
+	public ArrayList<String> resumenReserva()
+	{
 		resumenReserva.add(cliente.getNombre());
 		resumenReserva.add(fechaEntrega);
 		resumenReserva.add(sedeRecogida);
-		resumenReserva.add(setSedeEntrega());
-		resumenReserva.add(costoReserva);
-		resumenReserva.add(precioPagoAnticipado);
+		resumenReserva.add(sedeEntrega);
+		resumenReserva.add(String.valueOf(costoReserva));
+		resumenReserva.add(String.valueOf(precioPagoAnticipado));
 		
+		return resumenReserva;
 	}
 }
