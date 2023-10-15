@@ -1,11 +1,13 @@
 package Modelo;
 
 import java.util.ArrayList;
-import Procesamiento.EmpresaAlquilerVehiculo;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Reserva {
 	
-	private Cliente cliente;
-	private CategoriaVehiculo categoriaVehiculo;
+	private Map<String, CategoriaVehiculo> categoriasVehiculos;
+	private String cliente;
 	private String sedeRecogida;
 	private String sedeEntrega;
 	private String fechaRecogida;
@@ -15,19 +17,20 @@ public class Reserva {
 	private int costoReserva;
 	private int precioPagoAnticipado;
 	private ArrayList<String> resumenReserva;
-	private EmpresaAlquilerVehiculo Empresa;
+
 	
-	public Reserva(EmpresaAlquilerVehiculo Empresa, Cliente cliente, CategoriaVehiculo categoriaVehiculo, String sedeRecogida, 
+	public Reserva(String cliente, String categoriaVehiculo, String sedeRecogida, 
 			String sedeEntrega, String fechaRecogida, String fechaEntrega, String rangoHorasRecogida, String rangoHorasEntrega){
-		this.Empresa = Empresa;
+		
+		categoriasVehiculos = new HashMap<>();
+
 		this.cliente = cliente;
-		this.categoriaVehiculo = categoriaVehiculo;
 		this.sedeRecogida = sedeRecogida;
 		this.sedeEntrega = sedeEntrega;
 		this.fechaRecogida = fechaRecogida;
 		this.fechaEntrega = fechaEntrega;
-		this.rangoHorasRecogida = rangoHorasRecogida;
-		this.rangoHorasEntrega = rangoHorasEntrega;
+		this.setRangoHorasRecogida(rangoHorasRecogida);
+		this.setRangoHorasEntrega(rangoHorasEntrega);
 		
 		
 	}
@@ -52,20 +55,40 @@ public class Reserva {
 		return costoReserva;
 	}
 	
-	public int getprecioPagoAnticipado() {
+	public CategoriaVehiculo asignarVehiculo(String categoriaVehiculo) {
+		
+		if (categoriasVehiculos.containsKey(categoriaVehiculo)) {
+	        return categoriasVehiculos.get(categoriaVehiculo);
+	    } 
+		else 
+		{
+	    	return null;
+	    }
+	}
+	public int getprecioPagoAnticipado(String categoriaVehiculo) {
 		precioPagoAnticipado = 0;
 
-		if (this.Empresa.categorias.containsKey(categoriaVehiculo.toUpperCase())) {
-			CategoriaVehiculo categoria = this.Empresa.categorias.get(categoriaVehiculo.toUpperCase());
+		CategoriaVehiculo categoria = asignarVehiculo(categoriaVehiculo);
+		if (categoria != null) 
+		{
+		
 			int preciototal = categoria.getTarifaActual();
 			precioPagoAnticipado = (int) (preciototal *0.3);
-		};
+		}
+		
 		return precioPagoAnticipado;
 	}
 	
+	private static int numeroReserva = 1;
+	public int generarNumeroReserva() {
+		int reservaActual = numeroReserva;
+	    numeroReserva++; 
+	    return reservaActual;
+	  }
+	
 	public ArrayList<String> resumenReserva()
 	{
-		resumenReserva.add(cliente.getNombre());
+		resumenReserva.add(cliente);
 		resumenReserva.add(fechaEntrega);
 		resumenReserva.add(sedeRecogida);
 		resumenReserva.add(sedeEntrega);
@@ -73,5 +96,21 @@ public class Reserva {
 		resumenReserva.add(String.valueOf(precioPagoAnticipado));
 		
 		return resumenReserva;
+	}
+
+	public String getRangoHorasRecogida() {
+		return rangoHorasRecogida;
+	}
+
+	public void setRangoHorasRecogida(String rangoHorasRecogida) {
+		this.rangoHorasRecogida = rangoHorasRecogida;
+	}
+
+	public String getRangoHorasEntrega() {
+		return rangoHorasEntrega;
+	}
+
+	public void setRangoHorasEntrega(String rangoHorasEntrega) {
+		this.rangoHorasEntrega = rangoHorasEntrega;
 	}
 }

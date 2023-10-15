@@ -1,16 +1,14 @@
 package Procesamiento;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Date;
 import java.util.HashMap;
 
+import Modelo.Alquiler;
+import Modelo.CategoriaVehiculo;
 import Modelo.Cliente;
 import Modelo.ConductorAdicional;
 import Modelo.Empleado;
@@ -19,6 +17,7 @@ import Modelo.Usuario;
 import Modelo.Vehiculo;
 import Modelo.Seguro;
 import Modelo.EstadoVehiculo;
+import Modelo.Reserva;
 
 public class EmpresaAlquilerVehiculo {
 	
@@ -27,10 +26,11 @@ public class EmpresaAlquilerVehiculo {
 	private Map<String, Sede> sedes;
 	private Map<String, Empleado> empleados;
 	private Map<String, Seguro> seguros;
-	private Map<String, EstadoVehiculo> estadoVehiculo;
 	private Map<String, Cliente> clientes;
 	private Map<String, ConductorAdicional> conductorAdicional;
-
+	private Map<String, CategoriaVehiculo> categorias;
+	private Map<Integer, Alquiler> alquileres;
+	private Map<Integer, Reserva> reservas;
 	
 	public EmpresaAlquilerVehiculo() 
 	{
@@ -39,9 +39,12 @@ public class EmpresaAlquilerVehiculo {
 		sedes = new HashMap<>();
 		empleados = new HashMap<>();
 		seguros = new HashMap<>();
-		estadoVehiculo = new HashMap<>();
 		clientes = new HashMap<>();
 		conductorAdicional = new HashMap<>();
+		categorias = new HashMap<>();
+		alquileres = new HashMap<>();
+		reservas = new HashMap<>();
+		
 
 	}
 	
@@ -50,21 +53,6 @@ public class EmpresaAlquilerVehiculo {
 		return usuarios.containsKey(usuario);
 	 }
 	 
-	 public Usuario inicioSesion(String usuario, String contrasena) 
-	 {
-		 if(usuarios.containsKey(usuario)) {
-			 
-			 Usuario user = usuarios.get(usuario);
-			 
-			 if( user.getContraseña().equals(contrasena))
-			 {
-				 return user;
-			 }
-		 }
-		 
-		 return null;
-	 }
-		
 		public void registrarUsuario(String usuario, String contrasena, String rol)
 		{
 			{
@@ -75,26 +63,14 @@ public class EmpresaAlquilerVehiculo {
 				{
 					if(!verificarUsuario(usuario)) 
 					{
-						 try (BufferedWriter writer = new BufferedWriter(new FileWriter("usuarios.csv", true))) {
-						        writer.write(usuario + "," + contrasena + "," + rol.toString() + "\n");
-						    } 
-						 catch (IOException e) 
-						 	{
-						        // Manejar cualquier excepción de E/S que pueda ocurrir al escribir en el archivo CSV
-						        e.printStackTrace();
-						    }
+						Usuario nuevoUsuario = new Usuario(usuario, contrasena, rol);
+		                usuarios.put(usuario, nuevoUsuario);
 					}
 					else 
 					{
 						System.out.println("El nombre del usuario ya existe");
-						System.out.println("1. Volver a intentar");
-						System.out.println("2. Salir");
-						int opcionSeleccionada = Integer.parseInt(input("Digite opcion"));
-						if (opcionSeleccionada == 2)
-						{
 							System.out.println("Saliendo de la aplicación ...");
 							continuar = false;
-						}
 							
 					}
 				}
@@ -107,6 +83,21 @@ public class EmpresaAlquilerVehiculo {
 			}    
 		}
 	 
+	 public Usuario inicioSesion(String usuario, String contrasena) 
+		 {
+			 if(usuarios.containsKey(usuario)) {
+				 
+				 Usuario user = usuarios.get(usuario);
+				 
+				 if( user.getContraseña().equals(contrasena))
+				 {
+					 return user;
+				 }
+			 }
+			 
+			 return null;
+		 }
+			
 	public String iniciarSesion()
 		{
 				boolean continuar = true;
@@ -133,17 +124,15 @@ public class EmpresaAlquilerVehiculo {
 						}
 						else {
 							System.out.println("No coincide");
-							System.out.println("1. Volver a intentar");
-							System.out.println("2. Salir");
-							int opcionSeleccionada = Integer.parseInt(input("Digite opcion"));
-							if (opcionSeleccionada == 2)
-							{
-								System.out.println("Saliendo de la aplicación ...");
-								ingreso = false;
-							}
+							System.out.println("Saliendo de la aplicación ...");
+							continuar = false;
 							
 						}
 						}
+					}
+					else {
+						System.out.println("Saliendo de la aplicación ...");
+						continuar = false;
 					}
 					}
 					catch (NumberFormatException e)
@@ -208,14 +197,26 @@ public class EmpresaAlquilerVehiculo {
 		conductorAdicional.put(identificacion, nuevoConductorAdicional);
 	}
 	
-	public void generarReserva()
-	{
-		return 0;
+	public void generarReserva(String cliente, String categoriaVehiculo, String sedeRecogida, 
+			String sedeEntrega, String fechaRecogida, String fechaEntrega, String rangoHorasRecogida, String rangoHorasEntrega)
+	{	
+		Reserva newReserva = new Reserva( cliente, categoriaVehiculo, sedeRecogida, sedeEntrega,fechaRecogida,fechaEntrega,rangoHorasRecogida,rangoHorasEntrega);
+		int precio = newReserva.getprecioPagoAnticipado(categoriaVehiculo);
+		int numero = newReserva.generarNumeroReserva();
 		
+		System.out.println("El precio anticipado es" + precio);
+		reservas.put(numero, newReserva);
+				
 	}
+
 	
-	public void generarAlquiler(){
-		return 0;
+	public void generarAlquiler(String vehiculo, String cliente, String fechaRecogida, String rangoHorasRecogida, String sedeRecogida, String fechaEntrega, String rangoHorasEntrega, String sedeEntrega, String seguros2, String conductores)
+	{
+		Alquiler newAlquiler = new Alquiler(vehiculo,  cliente,  fechaRecogida,  rangoHorasRecogida,  sedeRecogida,  fechaEntrega,  rangoHorasEntrega,  sedeEntrega,  seguros2,  conductores);
+		int numero = newAlquiler.generarNumeroAlquiler();
+		int precio = newAlquiler.generarPrecioFinal(vehiculo);
+		System.out.println("El precio final de alquiler es:" + precio);
+		alquileres.put(numero, newAlquiler);		
 		
 	}
 	
@@ -315,6 +316,23 @@ public class EmpresaAlquilerVehiculo {
 		sedes.put(nombreSede, newSede);
 	}
 	
+	public void registrarCategoria(String nombreCategoria, int tarifaTemporadaAlta, int tarifaTemporadaBaja, int tarifaConductorAdicional, int tarifaEntregarOtraSede, boolean temporadaAlta) {
+	    CategoriaVehiculo categoria = new CategoriaVehiculo(nombreCategoria, tarifaTemporadaAlta, tarifaTemporadaBaja, tarifaConductorAdicional, tarifaEntregarOtraSede, temporadaAlta);
+	    categorias.put(nombreCategoria, categoria);
+	}
+	
+	public void actualizarCategoria(String nombreCategoria, int tarifaTemporadaAlta, int tarifaTemporadaBaja, int tarifaConductorAdicional, int tarifaEntregarOtraSede, boolean temporadaAlta) {
+	    if (categorias.containsKey(nombreCategoria)) {
+	        CategoriaVehiculo categoria = categorias.get(nombreCategoria);
+	        categoria.setTarifaTemporadaAlta(tarifaTemporadaAlta);
+	        categoria.setTarifaTemporadaBaja(tarifaTemporadaBaja);
+	        categoria.setTarifaConductorAdicional(tarifaConductorAdicional);
+	        categoria.setTarifaOtraSede(tarifaEntregarOtraSede);      
+	        categoria.setTemporadaAlta(temporadaAlta);
+	    } else {
+	        System.out.println("La categoría especificada no existe.");
+	    }
+	}
 	public String input(String mensaje)
 	{
 		try

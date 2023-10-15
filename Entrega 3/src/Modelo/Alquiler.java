@@ -1,15 +1,15 @@
 package Modelo;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import Procesamiento.EmpresaAlquilerVehiculo;
 
 public class Alquiler {
-	private Vehiculo vehiculo;
-	private Cliente cliente;
-	private Seguro seguro;
-	private EmpresaAlquilerVehiculo Empresa;
+	
+	private Map<String, CategoriaVehiculo> categoriasVehiculos;
+	private String vehiculo;
+	private String cliente;
 	private String fechaRecogida;
 	private String rangoHorasRecogida;
 	private String sedeRecogida;
@@ -21,17 +21,18 @@ public class Alquiler {
 	private ArrayList<Object> resumenAlquiler;
 
 	
-	public Alquiler(EmpresaAlquilerVehiculo Empresa, Vehiculo vehiculo, Cliente cliente, String fechaRecogida, String rangoHorasRecogida, String sedeRecogida, String fechaEntrega, String rangoHorasEntrega, String sedeEntrega, ArrayList<Seguro>segurosusados, ArrayList<ConductorAdicional>conductores){
+	public Alquiler(String cliente, String vehiculo, String fechaRecogida, String rangoHorasRecogida, String sedeRecogida, String fechaEntrega, String rangoHorasEntrega, String sedeEntrega, String seguros2, String conductores){
 		
-		this.vehiculo = vehiculo;
-		this.cliente = cliente;
-		this.fechaRecogida = fechaRecogida;
-		this.rangoHorasRecogida = rangoHorasRecogida;
+		categoriasVehiculos = new HashMap<>();
+		this.vehiculo = cliente;
+		this.cliente = vehiculo;
+		this.setFechaRecogida(fechaRecogida);
+		this.setRangoHorasRecogida(rangoHorasRecogida);
 		this.sedeRecogida = sedeRecogida;
-		this.fechaEntrega = fechaEntrega;
-		this.rangoHorasEntrega = rangoHorasEntrega;
+		this.setFechaEntrega(fechaEntrega);
+		this.setRangoHorasEntrega(rangoHorasEntrega);
 		this.sedeEntrega = sedeEntrega;
-		this.Empresa = Empresa;
+
 	}
 	
 	public void registroConductoresAdicionales(ArrayList<ConductorAdicional> conductorAdicional) {
@@ -41,17 +42,24 @@ public class Alquiler {
 	public void agregarSeguros(Seguro seguro) {
 		seguros.add(seguro);
 	}
-	
-	public void asignarVehiculo(String categoria) {
-		vehiculo.getCategoria();
+
+	public CategoriaVehiculo asignarVehiculo(String vehiculo) {
+		
+		if (categoriasVehiculos.containsKey(vehiculo)) {
+	        return categoriasVehiculos.get(vehiculo);
+	    } 
+		else 
+		{
+	    	return null;
+	    }
 	}
 	
 	public String getCliente() {
-		return this.getCliente();
+		return cliente;
 	}
 	
 	public String getVehiculo() {
-		return this.getVehiculo();
+		return vehiculo;
 	}
 	
 	private static int numeroReserva = 1;
@@ -61,41 +69,74 @@ public class Alquiler {
 	    return reservaActual;
 	  }
 	
-	public int generarPrecioFinal() {
-		int preciovehiculo =0;
+	public int generarPrecioFinal(String placaVehiculo) {
+		
+
+		CategoriaVehiculo categoria = asignarVehiculo(placaVehiculo);
+		
+		int precioVehiculo =0;
 		int precioConductorAdicional = 0;
-		int otrasede = 0;	
+		int otraSede = 0;	
 		int valorSeguro = 0;
-		String categoriaVehiculo = vehiculo.getCategoria();
-		if (this.Empresa.categorias.containsKey(categoriaVehiculo.toUpperCase())) {
-			CategoriaVehiculo categoria = this.Empresa.categorias.get(categoriaVehiculo.toUpperCase());
-			preciovehiculo = categoria.getTarifaActual();
-			precioConductorAdicional = categoria.getTarifaConductorAdicional();
-			otrasede= categoria.getTarifaOtraSede();}
 		
 		
-		int cantidadConductores =  conductorAdicional.size();
-		int precioConductores = precioConductorAdicional * cantidadConductores
-		int preciosSeguros = 0;
-		for (Seguro seguro : seguros) {
-            sumaCostos += seguro.getCosto();
-        }
-		if (!sedeRecogida.equals(sedeEntrega)) {
-			otrasede= 0;
-		} else {
-			otrasede = categoriaVehiculo.getTarifaOtraSede;
-		}
-			
-		int totalFinal = preciovehiculo + precioConductorAdicional + otrasede + preciosSeguros;
+		precioVehiculo = categoria.getTarifaActual();
+		
+	    if (conductorAdicional != null && !conductorAdicional.isEmpty()) {
+	        precioConductorAdicional = categoria.getTarifaConductorAdicional();
+	    }
+
+	    if (!sedeRecogida.equals(sedeEntrega)) {
+	        otraSede = categoria.getTarifaOtraSede();
+	    }
+
+	    if (seguros != null) {
+	        for (Seguro seguro : seguros) {
+	            valorSeguro += seguro.getCosto();
+	        }
+	    }
+		int totalFinal = precioVehiculo + precioConductorAdicional + otraSede + valorSeguro;
 		return totalFinal;
 	}
 	
 	public ArrayList<Object>resumen(){
-		resumenAlquiler.add(registroConductoresAdicionales());
-		resumenAlquiler.add(agregarSeguros());
-		resumenAlquiler.add(this.asignarVehiculo());
+		resumenAlquiler.add(conductorAdicional);
+		resumenAlquiler.add(seguros);
 		resumenAlquiler.add(getCliente());
 		resumenAlquiler.add(getVehiculo());
 		resumenAlquiler.add(this.generarNumeroAlquiler());
+		return resumenAlquiler;
+	}
+
+	public String getFechaRecogida() {
+		return fechaRecogida;
+	}
+
+	public void setFechaRecogida(String fechaRecogida) {
+		this.fechaRecogida = fechaRecogida;
+	}
+
+	public String getRangoHorasRecogida() {
+		return rangoHorasRecogida;
+	}
+
+	public void setRangoHorasRecogida(String rangoHorasRecogida) {
+		this.rangoHorasRecogida = rangoHorasRecogida;
+	}
+
+	public String getFechaEntrega() {
+		return fechaEntrega;
+	}
+
+	public void setFechaEntrega(String fechaEntrega) {
+		this.fechaEntrega = fechaEntrega;
+	}
+
+	public String getRangoHorasEntrega() {
+		return rangoHorasEntrega;
+	}
+
+	public void setRangoHorasEntrega(String rangoHorasEntrega) {
+		this.rangoHorasEntrega = rangoHorasEntrega;
 	}
 }

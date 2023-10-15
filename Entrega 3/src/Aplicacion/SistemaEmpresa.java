@@ -3,6 +3,7 @@ package Aplicacion;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import Procesamiento.EmpresaAlquilerVehiculo;
 	
 public class SistemaEmpresa {
@@ -59,11 +60,11 @@ public class SistemaEmpresa {
 									
 								break;
 								case "Empleado":
-									
+									ejecutarOpcionEmpleado();
 								break;
 								
 								case "Cliente":
-									
+									ejecutarOpcionCliente();
 								break;
 								
 								default: 
@@ -98,6 +99,7 @@ public class SistemaEmpresa {
 						    String fechaVencimientoMedioPago = input("Ingrese la fecha de vencimiento del medio de pago del cliente:");
 						    empresa.registrarCliente(nombre1, nombreUsuario1, contrasena1, fechaDeNacimiento, telefono, nacionalidad, imgDocidentidad, identificacion, numeroLicencia,
 						    						paisExpedicion, fechaLicencia, imgLicencia, tipoPago, numeroMedioPago, fechaVencimientoMedioPago);
+						    continuar = false;
 						break; 
 						}
 						
@@ -120,7 +122,9 @@ public class SistemaEmpresa {
 			System.out.println("1. Gestionar sedes");
 			System.out.println("2. Gestionar vehiculo");
 			System.out.println("3. Creacion seguro");
-			System.out.println("4. Salir del sistema\n");
+			System.out.println("4. Registrar Categoria");
+			System.out.println("5. Actualizar Categoria");
+			System.out.println("6. Salir del sistema\n");
 		}
 		
 		public void ejecutarOpcionAdministracion() 
@@ -149,6 +153,30 @@ public class SistemaEmpresa {
 				break;
 				
 				case 4:
+					System.out.println("completar informacion");
+					String nombreCategoria = input("Nombre de la categoría:");
+				    int tarifaTemporadaAlta = Integer.parseInt(input("Tarifa temporada alta:"));
+				    int tarifaTemporadaBaja = Integer.parseInt(input("Tarifa temporada baja:"));
+				    int tarifaConductorAdicional = Integer.parseInt(input("Tarifa conductor adicional:"));
+				    int tarifaEntregarOtraSede = Integer.parseInt(input("Tarifa entregar en otra sede:"));
+				    boolean temporadaAlta = Boolean.parseBoolean(input("¿Es temporada alta? (true/false):"));
+				    
+				    empresa.registrarCategoria(nombreCategoria, tarifaTemporadaAlta, tarifaTemporadaBaja, tarifaConductorAdicional, tarifaEntregarOtraSede, temporadaAlta);
+				break;
+				
+				case 5:
+					String nombreCategoria1 = input("Nombre de la categoría a actualizar:");
+				    int tarifaTemporadaAlta1 = Integer.parseInt(input("Nueva tarifa temporada alta:"));
+				    int tarifaTemporadaBaja1 = Integer.parseInt(input("Nueva tarifa temporada baja:"));
+				    int tarifaConductorAdicional1 = Integer.parseInt(input("Nueva tarifa conductor adicional:"));
+				    int tarifaEntregarOtraSede1 = Integer.parseInt(input("Nueva tarifa entregar en otra sede:"));
+				    boolean temporadaAlta1 = Boolean.parseBoolean(input("¿Es temporada alta? (true/false):"));
+				    
+				    empresa.actualizarCategoria(nombreCategoria1, tarifaTemporadaAlta1, tarifaTemporadaBaja1, tarifaConductorAdicional1, tarifaEntregarOtraSede1, temporadaAlta1);
+				    
+				break;
+				
+				case 6:
 					System.out.println("Saliendo de la aplicación ...");
 					continuar = false;
 					
@@ -253,7 +281,16 @@ public class SistemaEmpresa {
 				int opcion = Integer.parseInt(input("Por favor seleccione una opción "));
 				switch (opcion) {
 				case 1:
-					empresa.generarReserva();
+					String cliente = input("Ingrese el Id cliente:");
+					String categoriaVehiculo = input("Ingrese la categoria vehiculo:");
+					String sedeRecogida = input("Ingrese la sede de recogida:");
+					String sedeEntrega = input("Ingrese la sede de entrega:");
+					String fechaRecogida = input("Ingrese la fecha de recogida (dd/mm/yyyy):");
+					String rangoHorasRecogida = input("Ingrese el rango de horas de recogida:");
+					String fechaEntrega = input("Ingrese la fecha de entrega (dd/mm/yyyy):");
+					String rangoHorasEntrega = input("Ingrese el rango de horas de entrega:");
+					empresa.generarReserva( cliente, categoriaVehiculo, sedeRecogida, sedeEntrega,fechaRecogida,fechaEntrega,rangoHorasRecogida,rangoHorasEntrega);
+					
 				break;
 
 				case 2:
@@ -287,7 +324,19 @@ public class SistemaEmpresa {
 				int opcion = Integer.parseInt(input("Por favor seleccione una opción "));
 				switch (opcion) {
 				case 1:
-					empresa.generarAlquiler();
+					
+					String cliente = input("Ingrese el Id cliente:");
+					String vehiculo = input("Ingrese la placa vehiculo:");
+					String fechaRecogida = input("Ingrese la fecha de recogida (dd/mm/yyyy):");
+					String rangoHorasRecogida = input("Ingrese el rango de horas de recogida:");
+					String sedeRecogida = input("Ingrese la sede de recogida:");
+					String fechaEntrega = input("Ingrese la fecha de entrega (dd/mm/yyyy):");
+					String rangoHorasEntrega = input("Ingrese el rango de horas de entrega:");
+					String sedeEntrega = input("Ingrese la sede de entrega:");
+					String seguros = input("Ingrese el seguro:");
+					String conductores = input("Ingrese conductores:");
+					empresa.generarAlquiler(vehiculo, cliente, fechaRecogida, rangoHorasRecogida, sedeRecogida, fechaEntrega, rangoHorasEntrega, sedeEntrega, seguros, conductores);
+		
 				break;
 
 				case 2:
