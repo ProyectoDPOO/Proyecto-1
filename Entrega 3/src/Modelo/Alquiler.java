@@ -2,20 +2,22 @@ package Modelo;
 
 import java.util.ArrayList;
 
+import Procesamiento.EmpresaAlquilerVehiculo;
+
 public class Alquiler {
-	
+	private Vehiculo vehiculo;
 	private String fechaRecogida;
 	private String rangoHorasRecogida;
 	private String sedeRecogida;
 	private String fechaEntrega;
 	private String rangoHorasEntrega;
 	private String sedeEntrega;
-	private String conductor;
-	private String conductorAdicional;
-	
+	private ArrayList<ConductorAdicional> conductorAdicional;
+	private ArrayList<Seguro> seguros;
 	private ArrayList<Object> resumenAlquiler;
+	private EmpresaAlquilerVehiculo Empresa;
 	
-	public Alquiler(String vehiculo, String cliente, String fechaRecogida, String rangoHorasRecogida, String sedeRecogida, String fechaEntrega, String rangoHorasEntrega, String sedeEntrega, ArrayList<Seguro>segurosusados, ArrayList<ConductorAdicional>conductores){
+	public Alquiler(EmpresaAlquilerVehiculo Empresa,Vehiculo vehiculo, Cliente cliente, String fechaRecogida, String rangoHorasRecogida, String sedeRecogida, String fechaEntrega, String rangoHorasEntrega, String sedeEntrega, ArrayList<Seguro>segurosusados, ArrayList<ConductorAdicional>conductores){
 		
 		this.vehiculo = vehiculo;
 		this.cliente = cliente;
@@ -25,14 +27,15 @@ public class Alquiler {
 		this.fechaEntrega = fechaEntrega;
 		this.rangoHorasEntrega = rangoHorasEntrega;
 		this.sedeEntrega = sedeEntrega;
+		this.Empresa = Empresa;
 	}
 	
 	public void registroConductoresAdicionales(String conductorAdicional) {
 		this.conductorAdicional = conductorAdicional;
 	}
 	
-	public void agregarSeguros(String seguro) {
-		
+	public void agregarSeguros(Seguro seguro) {
+		seguros.add(seguro);
 	}
 	
 	public void asignarVehiculo(String categoria) {
@@ -55,9 +58,27 @@ public class Alquiler {
 	  }
 	
 	public int generarPrecioFinal() {
-		if (categoriasDeVehiculos.containsKey(categoria)) {
-            return categoriasDeVehiculos.get(categoria);
-        }
+		int  preciovehiculo =0;
+		int precioConductorAdicional = 0;
+		int otrasede = 0;
+		int total = 0;
+		String categoriaVehiculo = vehiculo.getCategoria();
+		if (this.Empresa.categorias.containsKey(categoriaVehiculo.toUpperCase())) {
+			CategoriaVehiculo categoria = this.Empresa.categorias.get(categoriaVehiculo.toUpperCase());
+			preciovehiculo = categoria.getTarifaActual();
+			precioConductorAdicional = categoria.getTarifaConductorAdicional();
+			otrasede= categoria.getTarifaOtraSede();}
+		
+		
+		int totalconductores = precioConductorAdicional* tamañlista condcutores adicionales
+				
+		int preciosSeguros = 0;
+		for (ciclos seguros)
+			segurocilco. utilizar metodo de seguros para retornar precio
+			
+		comparas si a seds es son diferentes 
+			
+		return total;
 	}
 	
 	public ArrayList<Object>resumen(){

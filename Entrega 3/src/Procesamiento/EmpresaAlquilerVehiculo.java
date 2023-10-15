@@ -11,9 +11,12 @@ import java.util.Map;
 import java.util.Date;
 import java.util.HashMap;
 
+import Modelo.CategoriaVehiculo;
 import Modelo.Cliente;
 import Modelo.Empleado;
+import Modelo.EstadoVehiculo;
 import Modelo.Sede;
+import Modelo.Seguro;
 import Modelo.Usuario;
 import Modelo.Vehiculo;
 
@@ -27,7 +30,7 @@ public class EmpresaAlquilerVehiculo {
 	private Map<String, Seguro> seguros;
 	private Map<String, EstadoVehiculo> estadoVehiculo;
 	private Map<String, Cliente> clientes;
-
+	public Map<String, CategoriaVehiculo> categorias;
 	private BufferedReader reader;
 	
 	public EmpresaAlquilerVehiculo() 
@@ -39,7 +42,7 @@ public class EmpresaAlquilerVehiculo {
 		seguros = new HashMap<>();
 		estadoVehiculo = new HashMap<>();
 		clientes = new HashMap<>();
-		
+		categorias = new HashMap<>();
 		reader = new BufferedReader(new InputStreamReader(System.in));
 
 	}
